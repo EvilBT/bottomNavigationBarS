@@ -14,13 +14,11 @@ void main() {
 class NavigationIconView {
   NavigationIconView(
       {Widget icon,
-        String title,
-        Color color,
-        TickerProvider vsync,
-        int badgeCount})
-      : _icon = icon,
-        _color = color,
-        _title = title,
+      String title,
+      Color color,
+      TickerProvider vsync,
+      int badgeCount})
+      : _title = title,
         item = BottomNavigationBarItemS(
             icon: icon,
             title: title == null ? null : Text(title),
@@ -32,8 +30,6 @@ class NavigationIconView {
         parent: controller,
         curve: Interval(0.5, 1.0, curve: Curves.fastOutSlowIn));
   }
-  final Widget _icon;
-  final Color _color;
   final String _title;
   final BottomNavigationBarItemS item;
   final AnimationController controller;
@@ -41,16 +37,6 @@ class NavigationIconView {
 
   FadeTransition transition(
       BottomNavigationBarTypeS type, BuildContext context) {
-    Color iconColor;
-    if (type == BottomNavigationBarTypeS.shifting) {
-      iconColor = _color;
-    } else {
-      final ThemeData themeData = Theme.of(context);
-      iconColor = themeData.brightness == Brightness.light
-          ? themeData.primaryColor
-          : themeData.accentColor;
-    }
-
     return FadeTransition(
       opacity: _animation,
       child: SlideTransition(
@@ -58,9 +44,10 @@ class NavigationIconView {
           begin: Offset(0.0, 0.02),
           end: Offset.zero,
         ).animate(_animation),
-        child: new Text('Placeholder for $_title tab',style: new TextStyle(
-          fontSize: 24.0
-        ),),
+        child: new Text(
+          'Placeholder for $_title tab',
+          style: new TextStyle(fontSize: 24.0),
+        ),
       ),
     );
   }
@@ -101,27 +88,27 @@ class _BottomNavigationDemoState extends State<BottomNavigationDemo>
           title: '警告',
           color: Colors.deepPurple,
           vsync: this,
-          badgeCount: 100
-      ),
+          badgeCount: 100),
       NavigationIconView(
           icon: CustomIcon(),
           title: '盒子',
           color: Colors.deepOrange,
-          vsync: this
-      ),
+          vsync: this),
       NavigationIconView(
-          icon: FloatingActionButton(onPressed: null,child: Icon(Icons.add),mini: false,),
+          icon: FloatingActionButton(
+            onPressed: null,
+            child: Icon(Icons.add),
+            mini: false,
+          ),
           color: Colors.teal,
           title: '添加',
-          vsync: this
-      ),
+          vsync: this),
       NavigationIconView(
           icon: Icon(Icons.favorite),
           title: '喜爱',
           color: Colors.indigo,
           vsync: this,
-          badgeCount: 99
-      ),
+          badgeCount: 99),
       NavigationIconView(
         icon: Icon(Icons.event_available),
         title: '事项',
@@ -193,8 +180,10 @@ class _BottomNavigationDemoState extends State<BottomNavigationDemo>
       },
     );
 
-    final FloatingActionButton fab = FloatingActionButton(onPressed: _update,
-      child: Icon(Icons.arrow_downward),);
+    final FloatingActionButton fab = FloatingActionButton(
+      onPressed: _update,
+      child: Icon(Icons.arrow_downward),
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -203,7 +192,7 @@ class _BottomNavigationDemoState extends State<BottomNavigationDemo>
           PopupMenuButton<String>(
             onSelected: (String value) {
               setState(() {
-                switch(value) {
+                switch (value) {
                   case 'Fixed':
                     _type = BottomNavigationBarTypeS.fixed;
                     break;
@@ -225,33 +214,32 @@ class _BottomNavigationDemoState extends State<BottomNavigationDemo>
                 }
               });
             },
-            itemBuilder: (BuildContext context) =>
-            <PopupMenuItem<String>>[
-              PopupMenuItem<String>(
-                value: 'Fixed',
-                child: Text('Fixed'),
-              ),
-              PopupMenuItem<String>(
-                value: 'Shifting',
-                child: Text('Shifting'),
-              ),
-              PopupMenuItem<String>(
-                value: 'Mid',
-                child: Text('Mid'),
-              ),
-              PopupMenuItem<String>(
-                value: 'HideBadge',
-                child: Text('HideBadge'),
-              ),
-              PopupMenuItem<String>(
-                value: 'ShowNumber',
-                child: Text('ShowNumber'),
-              ),
-              PopupMenuItem<String>(
-                value: 'ShowCircle',
-                child: Text('ShowCircle'),
-              )
-            ],
+            itemBuilder: (BuildContext context) => <PopupMenuItem<String>>[
+                  PopupMenuItem<String>(
+                    value: 'Fixed',
+                    child: Text('Fixed'),
+                  ),
+                  PopupMenuItem<String>(
+                    value: 'Shifting',
+                    child: Text('Shifting'),
+                  ),
+                  PopupMenuItem<String>(
+                    value: 'Mid',
+                    child: Text('Mid'),
+                  ),
+                  PopupMenuItem<String>(
+                    value: 'HideBadge',
+                    child: Text('HideBadge'),
+                  ),
+                  PopupMenuItem<String>(
+                    value: 'ShowNumber',
+                    child: Text('ShowNumber'),
+                  ),
+                  PopupMenuItem<String>(
+                    value: 'ShowCircle',
+                    child: Text('ShowCircle'),
+                  )
+                ],
           )
         ],
       ),
@@ -266,4 +254,3 @@ class _BottomNavigationDemoState extends State<BottomNavigationDemo>
     );
   }
 }
-

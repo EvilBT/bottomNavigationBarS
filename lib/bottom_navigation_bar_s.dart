@@ -206,26 +206,37 @@ class _BottomNavigationMidTile extends StatelessWidget {
     return new Semantics(
       container: true,
       selected: selected,
-      child: new Container(
-        //color: Colors.red,
-        margin: EdgeInsets.only(bottom: bottom),
-        padding: EdgeInsets.all(_kMidPadding),
-        child: new Stack(
-          children: <Widget>[
-            new InkResponse(
-              onTap: onTap,
-              child: new IconTheme(
-                  data: new IconThemeData(
-                    color: iconColor,
-                    //size: iconSize * 2,
-                  ),
-                  child: item.icon),
+      child: new Stack(
+        alignment: Alignment.bottomCenter,
+        children: <Widget>[
+          new InkResponse(
+            onTap: onTap,
+            child: new Container(
+              width: kBottomNavigationBarHeight,
+              height: bottom * 1.2,
             ),
-            new Semantics(
-              label: indexLabel,
-            )
-          ],
-        ),
+          ),
+          new Container(
+          //color: Colors.red,
+          margin: EdgeInsets.only(bottom: bottom),
+          padding: EdgeInsets.all(_kMidPadding),
+          child: new Stack(
+            children: <Widget>[
+              new InkResponse(
+                onTap: onTap,
+                child: new IconTheme(
+                    data: new IconThemeData(
+                      color: iconColor,
+                      //size: iconSize * 2,
+                    ),
+                    child: item.icon),
+              ),
+              new Semantics(
+                label: indexLabel,
+              )
+            ],
+          ),
+        ),],
       ),
     );
   }
