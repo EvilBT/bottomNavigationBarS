@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 
 import 'package:bottom_navigation_bar_s/bottom_navigation_bar_s.dart';
 
+import 'package:flutter/rendering.dart';
+
 void main() {
-  //debugPaintSizeEnabled = true;
+  debugPaintSizeEnabled = true;
   runApp(new MaterialApp(
     home: BottomNavigationDemo(),
   ));
@@ -56,15 +58,9 @@ class NavigationIconView {
           begin: Offset(0.0, 0.02),
           end: Offset.zero,
         ).animate(_animation),
-        child: IconTheme(
-            data: IconThemeData(
-              color: iconColor,
-              size: 120.0,
-            ),
-            child: Semantics(
-              label: 'Placeholder for $_title tab',
-              child: _icon,
-            )),
+        child: new Text('Placeholder for $_title tab',style: new TextStyle(
+          fontSize: 24.0
+        ),),
       ),
     );
   }
@@ -91,10 +87,10 @@ class BottomNavigationDemo extends StatefulWidget {
 class _BottomNavigationDemoState extends State<BottomNavigationDemo>
     with TickerProviderStateMixin {
   int _currentIndex = 0;
-  BottomNavigationBarTypeS _type = BottomNavigationBarTypeS.fixed;
+  BottomNavigationBarTypeS _type = BottomNavigationBarTypeS.mid;
   List<NavigationIconView> _navigationViews;
   bool _hideBadge = true;
-  bool _autoHideBadge = true;
+  BottomNavigationBarBadgeType _badgeType = BottomNavigationBarBadgeType.number;
 
   @override
   void initState() {
@@ -116,6 +112,7 @@ class _BottomNavigationDemoState extends State<BottomNavigationDemo>
       NavigationIconView(
           icon: FloatingActionButton(onPressed: null,child: Icon(Icons.add),mini: false,),
           color: Colors.teal,
+          title: '添加',
           vsync: this
       ),
       NavigationIconView(
@@ -186,14 +183,11 @@ class _BottomNavigationDemoState extends State<BottomNavigationDemo>
       currentIndex: _currentIndex,
       type: _type,
       hideBadge: _hideBadge,
-      autoHideBadge: _autoHideBadge,
+      badgeType: _badgeType,
       onTap: (int index) {
         setState(() {
           _navigationViews[_currentIndex].controller.reverse();
           _currentIndex = index;
-          //int count = _navigationViews[_currentIndex].item.badgeCount;
-          //count = count == null ? 1 : ++count;
-          //_navigationViews[_currentIndex].item.badgeCount = count;
           _navigationViews[_currentIndex].controller.forward();
         });
       },
@@ -216,11 +210,17 @@ class _BottomNavigationDemoState extends State<BottomNavigationDemo>
                   case 'Shifting':
                     _type = BottomNavigationBarTypeS.shifting;
                     break;
+                  case 'Mid':
+                    _type = BottomNavigationBarTypeS.mid;
+                    break;
                   case 'HideBadge':
                     _hideBadge = !_hideBadge;
                     break;
-                  case 'AutoHideBadge':
-                    _autoHideBadge = !_autoHideBadge;
+                  case 'ShowNumber':
+                    _badgeType = BottomNavigationBarBadgeType.number;
+                    break;
+                  case 'ShowCircle':
+                    _badgeType = BottomNavigationBarBadgeType.circle;
                     break;
                 }
               });
@@ -236,19 +236,30 @@ class _BottomNavigationDemoState extends State<BottomNavigationDemo>
                 child: Text('Shifting'),
               ),
               PopupMenuItem<String>(
+                value: 'Mid',
+                child: Text('Mid'),
+              ),
+              PopupMenuItem<String>(
                 value: 'HideBadge',
                 child: Text('HideBadge'),
               ),
               PopupMenuItem<String>(
-                value: 'AutoHideBadge',
-                child: Text('AutoHideBadge'),
+                value: 'ShowNumber',
+                child: Text('ShowNumber'),
+              ),
+              PopupMenuItem<String>(
+                value: 'ShowCircle',
+                child: Text('ShowCircle'),
               )
             ],
           )
         ],
       ),
-      body: new Center(
-        child: _buildTransitionsStack(),
+      body: new Container(
+        //color: Colors.lightGreenAccent,
+        child: new Center(
+          child: _buildTransitionsStack(),
+        ),
       ),
       bottomNavigationBar: botNavBar,
       floatingActionButton: fab,
